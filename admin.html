@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel - Order Management</title>
+    <link rel="stylesheet" href="./css/admin.css" />
+    <link rel="stylesheet" href="./css/home.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="logo">
+          <img src="./img/logos/main.png" alt="main" />
+          Tasty Connect
+        </div>
+        <ul>
+          <li>
+            <a href="admin.html">
+              <img src="./img/logos/icons8-admin-50-2.png" alt="admin" />Admin
+            </a>
+            <a href="adminorders.html">
+              <img src="./img/logos/icons8-admin-50-2.png" alt="adminorders" />Admin-orders
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <h1>Manage Client's Orders</h1>
+    </header>
+
+    <div class="adminContainer">
+      <div class="productList" id="productList"></div>
+      <div class="formSection">
+        <h2 id="formTitle">Add New Meal</h2>
+        <div class="formGroup">
+          <label>Name:</label>
+          <input type="text" id="nameInput" />
+        </div>
+        <div class="formGroup">
+          <label>Description:</label>
+          <input type="text" id="decsInput" />
+        </div>
+        <div class="formGroup">
+          <label>Stock:</label>
+          <input type="number" id="stockInput" />
+        </div>
+        <div class="formGroup">
+          <label>Price:</label>
+          <input type="number" id="priceInput" />
+        </div>
+        <div class="formGroup">
+          <label>img URL:</label>
+          <input type="text" id="urlInput" />
+        </div>
+        <button class="btn-Submit" id="submitButton" onclick="saveProducts()">
+          Save Product
+        </button>
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; 2024 Tasty Connect Admin. All rights reserved.</p>
+    </footer>
+
+    <script src="./js/admin.js"></script>
+  </body>
+</html>

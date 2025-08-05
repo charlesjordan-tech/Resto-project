@@ -1,0 +1,345 @@
+/* General Body Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  margin: 0;
+  background-color: #fffdf7;
+  color: #333;
+}
+body header {
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
+
+/* Header Styles */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #ff7043;
+  color: #fff;
+  padding: 1rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+nav ul li {
+  margin-left: 20px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+header h1 {
+  margin-top: 0.1rem;
+  font-size: 2rem;
+  text-align: center;
+}
+
+/* Main Content Styles */
+main {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 20px auto;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.cart-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cart-items-container {
+  border: 1px solid #dedddd;
+  border-radius: 8px;
+  padding: 15px;
+  min-height: 150px; /* Ensure some height even if empty */
+}
+
+.cartItem {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.cartItem:last-child {
+  border-bottom: none;
+}
+
+.cartItem img {
+  max-width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  transition: transform 0.4s ease;
+}
+
+.cartItem img:hover {
+  transform: scale(1.2);
+}
+
+.cartItem > div {
+  /* Container for product name, price, quantity controls */
+  flex-grow: 1;
+}
+
+.cartItem h3 {
+  margin: 0 0 29px 0;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.cartItem p {
+  margin-bottom: 2px;
+  font-size: 0.9rem;
+  color: #373535;
+  text-align: center;
+}
+
+.cartItem .quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.increase {
+  background-color: #079418;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.increase:hover {
+  background-color: #034b0b;
+}
+
+.decrease {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.decrease:hover {
+  background-color: #97101d;
+}
+
+.quantity-controls span {
+  font-weight: bold;
+  font-size: 1.1rem;
+  min-width: 20px; /* Ensure consistent spacing */
+  text-align: center;
+}
+
+.cartItem .remove-btn img {
+  /* Changed class to remove-btn for clarity */
+  height: 65px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition:  transform 0.3s;
+  margin-left: 600px;
+}
+
+.cartItem .remove-btn img:hover {
+    transform: scale(1.07);
+}
+
+
+.cart-summary {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: right;
+}
+
+.cart-summary h2 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #333;
+  text-align: center;
+}
+
+.cart-summary p {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.cart-summary .place-order-btn {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  text-align: center;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease;
+}
+
+.cart-summary .place-order-btn:hover {
+  background-color: #218838;
+}
+
+/* Empty cart message */
+#cartContainer p {
+  text-align: center;
+  font-style: italic;
+  color: #888;
+  margin-top: 50px;
+}
+
+/* Position the remove button and its tooltip */
+.remove-btn {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* Style the tooltip itself */
+.tooltip {
+    visibility: hidden;
+    background-color: #dc3545; /* Red background */
+    color: #fff; /* White text */
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 8px; /* Added horizontal padding for better appearance */
+    position: absolute;
+    z-index: 1;
+    bottom: 110%; /* Adjusted for better positioning above the icon */
+    left: 79%;
+    transform: translateX(-10%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+/* Style the small arrow at the bottom of the tooltip */
+.tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #dc3545 transparent transparent transparent;
+}
+
+/* Show the tooltip only when hovering over the trash icon */
+.remove-btn:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Existing .cartItem .remove-btn styles */
+.cartItem .remove-btn img {
+  /* Changed class to remove-btn for clarity */
+  height: 65px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition:  transform 0.3s;
+  margin-left: 600px;
+}
+
+.cartItem .remove-btn img:hover {
+    transform: scale(1.07);
+}
+
+/* Footer Styles (Consistent with home.css) */
+footer {
+  text-align: center;
+  padding: 5px;
+  background-color: #3a2018;
+  color: #fff;
+  margin-top: 20px;
+}
+
+/* Styles for client notifications */
+.client-notification-area {
+  position: fixed;
+  top: 20px; /* Adjust as needed */
+  right: 20px; /* Adjust as needed */
+  width: 300px;
+  max-height: 80vh;
+  overflow-y: auto;
+  background-color: #fff3cd; /* Light yellow background */
+  border: 1px solid #ffeeba;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none; /* Hidden by default, shown by JS if notifications exist */
+}
+
+.client-notification-message {
+  background-color: #fff;
+  border: 1px solid #ffeeba;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.client-notification-message p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #856404; /* Dark yellow text */
+}
+
+.dismiss-notification-btn {
+  background-color: #ffc107;
+  color: #333;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background-color 0.3s ease;
+}
+
+.dismiss-notification-btn:hover {
+  background-color: #e0a800;
+}

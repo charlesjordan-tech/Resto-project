@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Orders - My Store</title>
+    <link rel="stylesheet" href="./css/home.css" />
+    <link rel="stylesheet" href="./css/order.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="logo">
+          <img src="./img/logos/main.png" alt="main" />
+          Tasty Connect
+        </div>
+        <ul>
+          <li>
+            <a href="home.html" class="menu">
+              <img src="./img/logos/icons8-food-bar-50.png" alt="menu" />Menu
+            </a>
+          </li>
+          <li>
+            <a href="cart.html" class="cart-icon-container">
+              <img src="./img/logos/icons8-cart-50.png" alt="cart" />
+              <span id="cartCounter" class="cart-counter">0</span>
+            </a>
+          </li>
+          <li>
+            <a href="order.html">
+              <img src="./img/logos/icons8-order-50.png" alt="order" />Orders
+            </a>
+          </li>
+          <li>
+          </li>
+        </ul>
+      </nav>
+      <h1>Your Order History</h1>
+    </header>
+
+    <main>
+      <section class="orders-history">
+        <h2>All Your Placed Orders</h2>
+        <div id="orderContainer" class="client-orders-list">
+          <p>No orders placed yet.</p>
+        </div>
+        <div id="summary" class="summary"></div>
+      </section>
+      <div id="clientNotificationArea" class="client-notification-area"></div>
+    </main>
+    
+    <footer>
+      <p>&copy; 2024 My Store. All rights reserved.</p>
+    </footer>
+
+    <script src="./js/order.js"></script>
+    <script src="client-notification.js"></script>
+  </body>
+</html>

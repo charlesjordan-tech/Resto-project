@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page - Tasty Connect</title>
+    <link rel="stylesheet" href="./css/home.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="logo">
+          <img src="./img/logos/main.png" alt="main" />
+          Tasty Connect
+        </div>
+        <ul>
+          <li>
+            <a href="home.html" class="menu">
+              <img src="./img/logos/icons8-food-bar-50.png" alt="menu" />Menu
+            </a>
+          </li>
+          <li>
+            <a href="cart.html" class="cart-icon-container">
+              <img src="./img/logos/icons8-cart-50.png" alt="cart" />
+              <span id="cartCounter" class="cart-counter">0</span>
+            </a>
+          </li>
+          <li>
+            <a href="order.html">
+              <img src="./img/logos/icons8-order-50.png" alt="order" />Orders
+            </a>
+          </li>
+          <li>
+        </ul>
+      </nav>
+      <h1>Welcome Dr Customers</h1>
+    </header>
+
+    <main>
+      <div class="searchContainer">
+        <img src="./img/logos/icons8-search-50.png" alt="search">
+        <input type="text" id="search" placeholder="Search your meal..." />
+      </div>
+      <section class="products-section">
+        <h2>Available Meals</h2>
+        <div id="productList" class="product-grid"></div>
+      </section>
+      <div id="clientNotificationArea" class="client-notification-area"></div>
+    </main>
+    
+    <div id="cart-notification" class="cart-notification">Item added to cart!</div>
+
+    <footer>
+      <p>&copy; 2026 Tasty Connect. All rights reserved. &copy;</p>
+    </footer>
+
+    <script src="./js/home.js"></script>
+  </body>
+</html>
+

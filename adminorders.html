@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AdminOrder Panel - Order Management</title>
+    <link rel="stylesheet" href="./css/home.css" />
+    <link rel="stylesheet" href="./css/order.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="logo">
+          <img src="./img/logos/main.png" alt="main" />
+          Tasty Connect
+        </div>
+        <ul>
+          <li>
+            <a href="adminorders.html">
+              <img src="./img/logos/icons8-admin-50-2.png" alt="admin" />Adminorders
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <h1>Your Order History</h1>
+    </header>
+
+    <main>
+      <section class="orders-history">
+        <h2>All Your Placed Orders</h2>
+        <div id="orderContainer" class="client-orders-list">
+          <p>No orders placed yet.</p>
+        </div>
+        <div id="summary" class="summary"></div>
+      </section>
+      <div id="clientNotificationArea" class="client-notification-area"></div>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 My Store. All rights reserved.</p>
+    </footer>
+
+    <script src="./js/adminorders.js"></script>
+    <script src="client-notification.js"></script>
+  </body>
+</html>

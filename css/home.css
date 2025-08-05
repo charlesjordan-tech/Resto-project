@@ -1,0 +1,345 @@
+* {
+  box-sizing: border-box;
+}
+
+/* General Body Styles */
+body {
+  font-family: "Segoe UI", sans-serif;
+  margin: 0;
+  background-color: #fffdf7;
+  color: #333;
+}
+body header {
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
+
+/* Header Styles */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #ff7043;
+  color: #fff;
+  padding: 1rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: bold;
+  border-right: solid rgb(255, 255, 255) 4px;
+  border-left: solid rgb(255, 255, 255) 4px;
+  border-radius: 5px;
+  padding: 5px 18px;
+  color: #fff;
+  text-align: center;
+}
+
+.logo img {
+  height: 35px; /* Adjust as needed */
+  vertical-align: middle; /* Aligns the image with text */
+
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+nav ul li {
+  margin-left: 20px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+nav  a:hover {
+  border-bottom: 2.5px solid #ffffff;
+  border-left: 2.5px solid #ffffff;
+  border-radius: 3px;
+  padding: 2px 5px;
+}
+
+nav ul li,img {
+  height: 25px;
+  vertical-align: text-bottom;
+  padding-left: 2px;
+}
+
+/* Cart Icon & Counter Styles */
+.cart-icon-container {
+  font-size: 1.2rem;
+  height: 30px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Space between cart symbol and counter */
+}
+
+
+
+.cart-counter {
+  background-color: #ffffff; /* Red background for counter */
+  color: #000000;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border-radius: 50%; /* Makes it circular */
+  padding: 3px 7px; /* Adjust padding to make it a nice circle */
+  position: absolute; /* Position relative to .cart-icon-container */
+  top: -8px;
+  right: -15px;
+  min-width: 20px; /* Ensures it's always a circle */
+  text-align: center;
+  line-height: 1; /* Vertically center the number */
+  transform: scale(0.9); /* Slightly shrink */
+  transition: transform 0.2s ease-out;
+}
+
+.cart-counter,animate {
+  animation: pulse 0.3s ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(0.9);
+  }
+}
+
+header h1 {
+  margin-top: 0.1rem;
+  font-size: 2rem;
+  text-align: center;
+}
+
+/* Main Content Styles */
+main {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 20px auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.searchContainer {
+  display: flex;
+  justify-content: left;
+  margin: 5px 0px;
+}
+
+.searchContainer input {
+  width: 320px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: 2px solid #f68a6d;
+  font-size: 1rem;
+  outline: none;
+  transition: transform 0.3s;
+}
+
+.searchContainer input:hover {
+  transform: scale(1);
+  border: none;
+}
+
+.searchContainer img {
+  width: 40px;
+  height: 45px;
+  margin-left: 350px; /* Adjust based on input width */
+}
+
+.products-section h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #595756;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.productCard {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  padding: 12px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+
+.productCard:hover {
+  transform: translateY(-15px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.productCard img {
+  max-width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 7px;
+  transition: transform 0.4s ease;
+}
+
+.productCard img:hover {
+  transform: scale(1.2);
+}
+
+.productCard h3 {
+  font-size: 1.4rem;
+  margin-bottom: 5px;
+  color: #f15121;
+}
+
+.productCard p {
+  font-size: 0.9rem;
+  color: #949090;
+  margin-bottom: 5px;
+  flex-grow: 1; /* Allows description to take up available space */
+}
+
+.productCard p:last-of-type {
+  /* For the price paragraph */
+  font-weight: bold;
+  color: #4caf50;
+  font-size: 1.2rem;
+  margin-top: 5px;
+  text-align: left;
+}
+
+.productCard button {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  margin-top: 15px;
+}
+
+.productCard button:hover {
+  background-color: #0056b3;
+}
+
+.productCard h4 {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #4e4e4e;
+  text-align: left;
+  font-size: 1.2rem;
+}
+
+/* Fly-to-cart animation styles */
+.fly-to-cart-image {
+  position: fixed; /* Fixed position relative to viewport */
+  z-index: 9999;
+  width: 60px; /* Starting size */
+  height: 60px;
+  border-radius: 50%; /* Make it round */
+  object-fit: cover;
+  opacity: 1;
+  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Smooth, bouncy transition */
+}
+
+/* Footer Styles */
+footer {
+  text-align: center;
+  padding: 5px;
+  background-color: #3a2018;
+  color: #fff;
+  margin-top: 20px;
+}
+
+/* Styles for client notifications */
+.client-notification-area {
+  position: fixed;
+  top: 20px; /* Adjust as needed */
+  right: 20px; /* Adjust as needed */
+  width: 300px;
+  max-height: 80vh;
+  overflow-y: auto;
+  background-color: #fff3cd; /* Light yellow background */
+  border: 1px solid #ffeeba;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none; /* Hidden by default, shown by JS if notifications exist */
+}
+
+.client-notification-message {
+  background-color: #fff;
+  border: 1px solid #ffeeba;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.client-notification-message p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #856404; /* Dark yellow text */
+}
+
+.dismiss-notification-btn {
+  background-color: #ffc107;
+  color: #333;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background-color 0.3s ease;
+}
+
+.dismiss-notification-btn:hover {
+  background-color: #e0a800;
+}
+
+.cart-notification {
+  position: fixed;
+  top: 20px; /* Adjust as needed */
+  right: 20px; /* Adjust as needed */
+  background-color: #f8d7da; /* Light red background */
+  color: #721c24; /* Dark red text */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  visibility: hidden;
+}
+
