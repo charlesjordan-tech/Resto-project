@@ -50,8 +50,9 @@ function renderCustomerOrders() {
         orderCard.innerHTML = `
             <h3>
                 Order ID: ${order.id}
-                <span class="order-status ${statusClass}">${order.status || 'Pending'}</span>
+                <button class="order-status ${statusClass}">${order.status || 'Pending'}</button>
             </h3>
+            <h2>Table Number: ${order.tableNumber}</h2>
             <p><strong>Order Date:</strong> ${orderDate}</p>
             <p><strong>Order Total:</strong> ${order.totalPrice.toFixed(0)} CFA</p>
             <h4>Items in this order:</h4>
@@ -77,3 +78,48 @@ function updateCartCountOnOrderPage() {
 }
 // Initial load of orders when the page loads
 document.addEventListener('DOMContentLoaded', loadCustomerOrders);
+
+// New event listener for clicking on order status
+const orderContainer = document.getElementById("orderContainer");
+orderContainer.addEventListener("click", function(event) {
+  // Check if the clicked element is an order status button
+  const clickedStatus = event.target.closest(".order-status");
+
+  if (clickedStatus) {
+    const orderCard = clickedStatus.closest(".order-card");
+    const orderId = orderCard.dataset.orderId;
+
+    // Find the order in the array
+    const orderIndex = customerOrders.findIndex(order => order.id === orderId);
+
+    if (orderIndex !== -1) {
+      let currentStatus = customerOrders[orderIndex].status || 'Pending';
+      let newStatus;
+
+      // Cycle the status
+      switch (currentStatus) {
+        case 'Pending':
+          newStatus = 'Cooking';
+          break;
+        case 'Cooking':
+          newStatus = 'Delivered';
+          break;
+        case 'Delivered':
+          newStatus = 'Pending';
+          break;
+        default:
+          newStatus = 'Pending';
+          break;
+      }
+
+      // Update the status
+      customerOrders[orderIndex].status = newStatus;
+
+      // Save the updated array to localStorage
+      localStorage.setItem('order', JSON.stringify(customerOrders));
+
+      // Re-render the orders to show the new status
+      renderCustomerOrders();
+    }
+  }
+});

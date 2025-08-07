@@ -23,7 +23,7 @@ main {
 .orders-history h2 {
     text-align: center;
     margin-bottom: 30px;
-    color: #333;
+    color: #3f3e3e;
 }
 
 .client-orders-list {
@@ -91,23 +91,41 @@ main {
 
 .order-status {
     font-weight: bold;
-    padding: 4px 8px;
-    border-radius: 5px;
+    padding: 10px 9px;
+    border-radius: 18px;
+    text-align: center;
     color: #fff;
-    white-space: nowrap; /* Prevents text from wrapping */
+    white-space: nowrap;
+    border: none; 
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    margin-top: 10px;
+    text-transform: uppercase; /* Ensure status is always in capital letters */
+    font-size: 0.9rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    width: 100px; /* Fixed width for consistency */
+    text-overflow: ellipsis; /* Handle overflow text */
+    cursor: pointer;
+}
+
+.order-status:hover {
+    opacity: 0.9; /* Slightly dim on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    transform: scale(1.02); /* Slightly enlarge on hover */
 }
 
 /* Status colors (consistent with admin.css) */
 .order-status.Pending {
-    background-color: #ffc107; /* Yellow */
+    background-color: #ff4907; /* Yellow */
 }
 
-.order-status.Finished {
-    background-color: #28a745; /* Green */
+.order-status.Delivered {
+    background-color: #2e97ed; /* Green */
 }
 
-.order-status.Not-Available { /* Note: class name will be 'Not-Available' for CSS */
-    background-color: #dc3545; /* Red */
+.order-status.Cooking { /* Note: class name will be 'Not-Available' for CSS */
+    background-color: #4bdc35; /* Red */
 }
 
 .summary {

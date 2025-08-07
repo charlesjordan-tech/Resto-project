@@ -35,20 +35,28 @@ nav {
 }
 
 .logo {
-  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Increased space for better separation */
+  font-size: 2.2rem; /* Slightly larger font for prominence */
   font-weight: bold;
-  border-right: solid rgb(255, 255, 255) 4px;
-  border-left: solid rgb(255, 255, 255) 4px;
-  border-radius: 5px;
-  padding: 5px 18px;
+  /* Removed old border styling for a cleaner look */
   color: #fff;
   text-align: center;
 }
-
 .logo img {
-  height: 35px; /* Adjust as needed */
-  vertical-align: middle; /* Aligns the image with text */
-
+  width: 50px; /* Slightly larger logo */
+  height: 50px;
+  border-radius: 8px; /* Softened edges */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Added a subtle shadow */
+}
+.logo-icon {
+  position: relative;
+  width: 45px; /* Slightly larger icon */
+  height: 45px;
+  background-color: #ffffff; /* White background for the icon container */
+  border-radius: 8px; /* Softened edges */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Added a subtle shadow */
 }
 
 nav ul {
@@ -66,17 +74,32 @@ nav a {
   color: #fff;
   text-decoration: none;
   font-weight: bold;
+  position: relative;
   transition: color 0.3s ease;
 }
 
-nav  a:hover {
-  border-bottom: 2.5px solid #ffffff;
-  border-left: 2.5px solid #ffffff;
-  border-radius: 3px;
-  padding: 2px 5px;
+nav a:hover {
+  padding: 0;
 }
 
-nav ul li,img {
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px; /* Position it below the text */
+  left: 0;
+  width: 0; /* Start with zero width */
+  height: 4px; /* Set the height of the bar */
+  background-color: #ffd500; /* The orange color */
+  border-radius: 5px;
+  transition: width 0.3s ease-out; /* Add a smooth transition for the width */
+}
+
+nav a:hover::after {
+  width: 100%; 
+}
+
+nav ul li,
+img {
   height: 25px;
   vertical-align: text-bottom;
   padding-left: 2px;
@@ -91,8 +114,6 @@ nav ul li,img {
   align-items: center;
   gap: 5px; /* Space between cart symbol and counter */
 }
-
-
 
 .cart-counter {
   background-color: #ffffff; /* Red background for counter */
@@ -111,7 +132,8 @@ nav ul li,img {
   transition: transform 0.2s ease-out;
 }
 
-.cart-counter,animate {
+.cart-counter,
+animate {
   animation: pulse 0.3s ease-in-out;
 }
 
@@ -149,7 +171,8 @@ main {
 }
 
 .searchContainer input {
-  width: 320px;
+  width: 100%;
+  max-width: 320px;
   padding: 12px 20px;
   border-radius: 999px;
   border: 2px solid #f68a6d;
@@ -166,7 +189,7 @@ main {
 .searchContainer img {
   width: 40px;
   height: 45px;
-  margin-left: 350px; /* Adjust based on input width */
+  margin-left: 10px; /* Adjust based on input width */
 }
 
 .products-section h2 {
@@ -259,18 +282,6 @@ main {
   font-size: 1.2rem;
 }
 
-/* Fly-to-cart animation styles */
-.fly-to-cart-image {
-  position: fixed; /* Fixed position relative to viewport */
-  z-index: 9999;
-  width: 60px; /* Starting size */
-  height: 60px;
-  border-radius: 50%; /* Make it round */
-  object-fit: cover;
-  opacity: 1;
-  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Smooth, bouncy transition */
-}
-
 /* Footer Styles */
 footer {
   text-align: center;
@@ -280,40 +291,6 @@ footer {
   margin-top: 20px;
 }
 
-/* Styles for client notifications */
-.client-notification-area {
-  position: fixed;
-  top: 20px; /* Adjust as needed */
-  right: 20px; /* Adjust as needed */
-  width: 300px;
-  max-height: 80vh;
-  overflow-y: auto;
-  background-color: #fff3cd; /* Light yellow background */
-  border: 1px solid #ffeeba;
-  border-radius: 8px;
-  padding: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  display: none; /* Hidden by default, shown by JS if notifications exist */
-}
-
-.client-notification-message {
-  background-color: #fff;
-  border: 1px solid #ffeeba;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-}
-
-.client-notification-message p {
-  margin: 0;
-  font-size: 0.9rem;
-  color: #856404; /* Dark yellow text */
-}
 
 .dismiss-notification-btn {
   background-color: #ffc107;
@@ -332,10 +309,11 @@ footer {
 
 .cart-notification {
   position: fixed;
-  top: 20px; /* Adjust as needed */
+  top: auto; /* Adjust as needed */
   right: 20px; /* Adjust as needed */
-  background-color: #f8d7da; /* Light red background */
-  color: #721c24; /* Dark red text */
+  bottom: 20px;
+  background-color: #045296; /* Light red background */
+  color: #ffffff; /* Dark red text */
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -343,3 +321,17 @@ footer {
   visibility: hidden;
 }
 
+@media (max-width: 600px) {
+  .searchContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .searchContainer input {
+    margin-bottom: 10px;
+  }
+
+  .searchContainer img {
+    margin-left: 0;
+  }
+}

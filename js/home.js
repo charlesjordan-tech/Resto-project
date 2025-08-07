@@ -196,6 +196,9 @@ function addToCart(productId) {
   localStorage.setItem("cart", JSON.stringify(cart));
   updateCartCount();
 
+  // Update the notification text with the product's name
+  cartNotification.textContent = `${productToAdd.name} added to cart!`;
+
   cartNotification.classList.add("cart-notification");
   cartNotification.style.visibility = "visible";
   // Ensure DOM updates before hiding notification

@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Your Cart - Tasty Connect</title>
-    <link rel="stylesheet" href="./css/cart.css">
-    <link rel="stylesheet" href="./css/home.css">
-</head>
-<body>
+    <link rel="stylesheet" href="./css/cart.css" />
+    <link rel="stylesheet" href="./css/home.css" />
+  </head>
+  <body>
     <header>
-       <nav>
+      <nav>
         <div class="logo">
           <img src="./img/logos/main.png" alt="main" />
           Tasty Connect
         </div>
-        <ul>
+         <ul>
           <li>
             <a href="home.html" class="menu">
               <img src="./img/logos/icons8-food-bar-50.png" alt="menu" />Menu
@@ -28,7 +28,10 @@
           </li>
           <li>
             <a href="order.html">
-              <img src="./img/logos/icons8-order-50.png" alt="order" />Orders
+              <img
+                src="./img/logos/icons8-order-50.png.png"
+                alt="clipboard with checkmark representing order status"
+              />Orders
             </a>
           </li>
           <li>
@@ -38,29 +41,49 @@
           </li>
         </ul>
       </nav>
-        <h1>On Hold for You</h1>
+      <div class="logo-underline"></div>
+      <h1>On Hold for You</h1>
+
     </header>
 
     <main>
-        <section class="cart-section">
-            <div id="cartContainer" class="cart-items-container">
-                </div>
+      <section class="cart-section">
+        <div id="cartContainer" class="cart-items-container"></div>
 
-            <div class="cart-summary">
-                <h2>Purchase Overview</h2>
-                <p id="summary">Total: 0CFA</p>
-                <button class="place-order-btn" onclick="placeOrder()">Place Order</button>
-            </div>        
-        </section>
-        <div id="clientNotificationArea" class="client-notification-area">
+        <div class="cart-summary">
+          <h2>Purchase Overview</h2>
+          <p id="summary">Total: 0CFA</p>
+          <button class="place-order-btn" onclick="placeOrder()">
+            Place Order
+          </button>
         </div>
+      </section>
+      <div id="clientNotificationArea" class="client-notification-area"></div>
     </main>
 
+    <!-- Order Confirmation Popup -->
+    <div id="orderConfirmationPopup" class="popup-overlay">
+      <div class="popup-content">
+        <h2>Confirm Your Order</h2>
+        <div id="popupOrderDetails" class="popup-order-details">
+          <!-- Order details will be dynamically inserted here by JavaScript -->
+        </div>
+        <div class="popup-buttons">
+          <button id="validateOrderBtn" class="popup-btn validate-btn">
+            Validate Order
+          </button>
+          <button id="cancelOrderBtn" class="popup-btn cancel-btn">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
     <footer>
-        <p>&copy; 2024 My Store. All rights reserved.</p>
+      <p>&copy; 2024 My Store. All rights reserved.</p>
     </footer>
 
     <script src="./js/cart.js"></script>
     <script src="./js/client-notification.js"></script>
-</body>
+  </body>
 </html>

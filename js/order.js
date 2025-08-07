@@ -60,10 +60,15 @@ function renderCustomerOrders() {
     orderCard.innerHTML = `
             <h3>
                 Order ID: ${order.id}
-                <span class="order-status ${statusClass}">${order.status || "Pending"}</span>
+                <button class="order-status ${statusClass}">${
+      order.status || "Pending"
+    }</button>
             </h3>
+            <h2>Table Number: ${order.tableNumber}</h2>
             <p><strong>Order Date:</strong> ${orderDate}</p>
-            <p><strong>Order Total:</strong> ${order.totalPrice.toFixed(0)} CFA</p>
+            <p><strong>Order Total:</strong> ${order.totalPrice.toFixed(
+              0
+            )} CFA</p>
             <h4>Items in this order:</h4>
             <ul>${itemsHtml}</ul>
         `;
