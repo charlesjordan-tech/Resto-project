@@ -69,13 +69,6 @@ nav a {
   transition: color 0.3s ease;
 }
 
-nav  a:hover {
-  border-bottom: 2.5px solid #ffffff;
-  border-left: 2.5px solid #ffffff;
-  border-radius: 3px;
-  padding: 2px 5px;
-}
-
 nav ul li,img {
   height: 25px;
   vertical-align: text-bottom;

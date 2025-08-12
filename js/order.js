@@ -60,9 +60,7 @@ function renderCustomerOrders() {
     orderCard.innerHTML = `
             <h3>
                 Order ID: ${order.id}
-                <button class="order-status ${statusClass}">${
-      order.status || "Pending"
-    }</button>
+                <button class="order-status ${statusClass}">${order.status || "Pending"}</button>
             </h3>
             <h2>Table Number: ${order.tableNumber}</h2>
             <p><strong>Order Date:</strong> ${orderDate}</p>
