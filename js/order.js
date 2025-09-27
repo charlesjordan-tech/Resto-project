@@ -1,18 +1,27 @@
-let customerOrders = []; // Renamed from 'products' for clarity as it holds orders
+let customerOrders = [];
 
-function loadCustomerOrders() {
-  const storedOrders = localStorage.getItem("order");
-  if (storedOrders) {
-    customerOrders = JSON.parse(storedOrders);
+const API_BASE_URL = "http://localhost:3000";
+
+// Fetches the orders from the JSON server and renders them
+async function loadCustomerOrders() {
+  const orderContainer = document.getElementById("orderContainer");
+  try {
+    const response = await fetch(`${API_BASE_URL}/orders`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    customerOrders = await response.json();
+    renderCustomerOrders();
+  } catch (error) {
+    console.error("Failed to load customer orders:", error);
+    orderContainer.innerHTML = "<p>Error loading orders. Please try again later.</p>";
   }
-  renderCustomerOrders();
-  updateCartCountOnOrderPage(); // Update cart counter in nav if it's present
 }
 
 function renderCustomerOrders() {
   const orderContainer = document.getElementById("orderContainer");
   const orderSummary = document.getElementById("summary");
-  orderContainer.innerHTML = ""; // Clear existing content
+  orderContainer.innerHTML = "";
   orderSummary.innerHTML = "";
 
   if (customerOrders.length === 0) {
@@ -21,34 +30,32 @@ function renderCustomerOrders() {
     return;
   }
 
-  // Sort orders by timestamp, newest first for better UX
   const sortedOrders = [...customerOrders].sort(
     (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
   );
 
-  let grandTotalOrdersPrice = 0; // To calculate the total of all orders
+  let grandTotalOrdersPrice = 0;
 
   sortedOrders.forEach((order) => {
     grandTotalOrdersPrice += order.totalPrice;
 
     const orderCard = document.createElement("div");
     orderCard.classList.add("order-card");
-    orderCard.dataset.orderId = order.id; // Store order ID for reference
+    orderCard.dataset.orderId = order.id;
 
-    // Format timestamp
     const orderDate = new Date(order.timestamp).toLocaleString();
+    let statusClass = "pending";
+    if (order.status === "Cooking") {
+      statusClass = "cooking";
+    } else if (order.status === "Delivered") {
+      statusClass = "delivered";
+    }
 
-    // Adjust class for status display (e.g., "Not Available" needs to be "Not-Available" for CSS)
-    const statusClass = (order.status || "Pending").replace(/\s+/g, "-");
-
-    // Build HTML for items within this order
-    let itemsHtml = order.items
+    const itemsHtml = order.items
       .map(
         (item) => `
             <li>
-                <img src="${item.image}" alt="${
-          item.name
-        }" class="itemImage" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover;">
+                <img src="${item.image}" alt="${item.name}" class="itemImage" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover;">
                 ${item.name} (Qty: ${item.quantity || 1}) - ${
           item.price
         } CFA per item
@@ -73,23 +80,25 @@ function renderCustomerOrders() {
     orderContainer.appendChild(orderCard);
   });
 
-  orderSummary.textContent = `Grand Total for all orders: ${grandTotalOrdersPrice.toFixed(
-    0
-  )} CFA`;
+  orderSummary.textContent = `Grand Total for all orders: ${grandTotalOrdersPrice.toFixed(0)} CFA`;
 }
 
-// Function to update the cart counter in the navigation bar on this page
-function updateCartCountOnOrderPage() {
+// Function to update the cart counter from the JSON server
+async function updateCartCountOnOrderPage() {
   const cartCounter = document.getElementById("cartCounter");
   if (cartCounter) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let totalItems = 0;
-    cart.forEach((item) => {
-      totalItems += item.quantity || 1;
-    });
-    cartCounter.textContent = totalItems;
+    try {
+      const response = await fetch(`${API_BASE_URL}/cart`);
+      const cart = await response.json();
+      const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+      cartCounter.textContent = totalItems;
+    } catch (error) {
+      console.error("Failed to update cart count:", error);
+      cartCounter.textContent = "0"; // Fallback to 0 on error
+    }
   }
 }
 
-// Initial load of orders when the page loads
-document.addEventListener("DOMContentLoaded", loadCustomerOrders);
+// Initial load of orders and cart count when the page loads
+loadCustomerOrders();
+updateCartCountOnOrderPage();

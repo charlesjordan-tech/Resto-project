@@ -5,40 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Your Cart - Tasty Connect</title>
     <link rel="stylesheet" href="./css/cart.css" />
-    <link rel="stylesheet" href="./css/home.css" />
+    <link rel="stylesheet" href="./css/home.css">
   </head>
   <body>
     <header>
       <nav>
         <div class="logo">
-          <img src="./img/logos/main.png" alt="main" />
-          Tasty Connect
+          <img src="./img/logos/icons8-carrd.gif" alt="logo icon" />
+          Cart
         </div>
-         <ul>
+        <ul>
           <li>
             <a href="home.html" class="menu">
-              <img src="./img/logos/icons8-food-bar-50.png" alt="menu" />Menu
+              <img src="./img/logos/icons8-meal.gif" alt="menu" />Menu
             </a>
           </li>
           <li>
             <a href="cart.html" class="cart-icon-container">
-              <img src="./img/logos/icons8-cart-50.png" alt="cart" />
+              <img src="./img/logos/icons8-cart.gif" alt="cart" />
               <span id="cartCounter" class="cart-counter">0</span>
             </a>
           </li>
           <li>
             <a href="order.html">
               <img
-                src="./img/logos/icons8-order-50.png.png"
-                alt="clipboard with checkmark representing order status"
+                src="./img/logos/icons8-order.gif"
+                alt="order"
               />Orders
             </a>
           </li>
+          <li></li>
         </ul>
       </nav>
-      <div class="logo-underline"></div>
       <h1>On Hold for You</h1>
-
     </header>
 
     <main>
@@ -56,13 +55,11 @@
       <div id="clientNotificationArea" class="client-notification-area"></div>
     </main>
 
-    <!-- Order Confirmation Popup -->
     <div id="orderConfirmationPopup" class="popup-overlay">
       <div class="popup-content">
         <h2>Confirm Your Order</h2>
         <div id="popupOrderDetails" class="popup-order-details">
-          <!-- Order details will be dynamically inserted here by JavaScript -->
-        </div>
+          </div>
         <div class="popup-buttons">
           <button id="validateOrderBtn" class="popup-btn validate-btn">
             Validate Order
@@ -75,10 +72,10 @@
     </div>
 
     <footer>
-      <p>&copy; 2024 My Store. All rights reserved.</p>
+      <p>&copy; 2024 Tasty Connect. All rights reserved.</p>
     </footer>
 
     <script src="./js/cart.js"></script>
-    <script src="./js/client-notification.js"></script>
+    <script src="./js/home.js"></script>
   </body>
 </html>

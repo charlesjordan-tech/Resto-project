@@ -1,200 +1,188 @@
-let products = [];
-
-function setItemsFromLocalStorage() {
-  const storageItems = localStorage.getItem(`cart`);
-  if (storageItems) {
-    products = JSON.parse(storageItems);
-  }
-}
-setItemsFromLocalStorage();
-
 const cartList = document.getElementById("cartContainer");
 const cartSummary = document.getElementById("summary");
 
-// Get references to the new popup elements
+// Get references to the popup and buttons
 const orderConfirmationPopup = document.getElementById("orderConfirmationPopup");
 const popupOrderDetails = document.getElementById("popupOrderDetails");
 const validateOrderBtn = document.getElementById("validateOrderBtn");
 const cancelOrderBtn = document.getElementById("cancelOrderBtn");
 
-function renderItems() {
+// Event listeners for popup buttons
+validateOrderBtn.addEventListener("click", finalizeOrder);
+cancelOrderBtn.addEventListener("click", cancelOrder);
+
+// Initial call to load cart items from the server
+loadCartItems();
+
+async function loadCartItems() {
+  try {
+    const response = await fetch("http://localhost:3000/cart");
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const cartItems = await response.json();
+    renderCart(cartItems);
+  } catch (error) {
+    console.error("Failed to load cart items:", error);
+    cartList.innerHTML = "<p>Error loading cart. Please try again.</p>";
+  }
+}
+
+function renderCart(cartItems) {
   cartList.innerHTML = "";
   let totalPrice = 0;
-  let totalQuantity = 0;
-
-  if (products.length === 0) {
+  if (cartItems.length === 0) {
     cartList.innerHTML = "<p>Your cart is empty.</p>";
+    cartSummary.textContent = "Total: 0 CFA";
   } else {
-    for (let product of products) {
-      console.log(product);
-      // Ensure quantity exists, default to 1
-      totalPrice += product.price * product.quantity;
-      totalQuantity += product.quantity;
-
+    for (const item of cartItems) {
+      const quantity = item.quantity || 1;
+      totalPrice += item.price * quantity;
       const cartItem = document.createElement("div");
-      cartItem.classList.add("cartItem");
+      cartItem.classList.add("cart-item");
       cartItem.innerHTML = `
-              <img src="${product.image}" alt="${product.name}">
-              <div>
-                  <h3>${product.name}</h3>
-                  <p>Price: ${product.price} CFA</p>
-                  <div class="quantity-controls">
-                      <button class="decrease" onclick="decreaseQuantity(${product.id})">-</button>
-                      <span>${product.quantity}</span>
-                      <button class="increase" onclick="increaseQuantity(${product.id})">+</button>
-                  </div>
-              </div>
-              <button class="remove-btn" onclick="removeItem(${product.id})">
-                <div class="tooltip">Remove Meal</div>
-                <img src="./img/logos/trash.png" alt="delete">
-              </button>
-          `;
+        <img src="${item.image}" alt="${item.name}">
+        <div class="item-details">
+          <h3>${item.name}</h3>
+          <p>Price: ${item.price} CFA</p>
+          <div class="quantity-control">
+            <button class="decrease-btn" onclick="decreaseQuantity('${item.id}')">-</button>
+            <span>${quantity}</span>
+            <button class="increase-btn" onclick="increaseQuantity('${item.id}')">+</button>
+          </div>
+        </div>
+        <button class="removeButton" onclick="removeItem('${item.id}')">Remove</button>
+      `;
       cartList.appendChild(cartItem);
     }
-  }
-
-  cartSummary.textContent = `Total: ${totalPrice} CFA`;
-  cartSummary.textContent += ` | Total Items: ${totalQuantity}`; // Changed to "Total Items" for clarity
-  localStorage.setItem("cart", JSON.stringify(products)); // Update local storage after rendering
-  const cartCounter = document.getElementById("cartCounter");
-  cartCounter.textContent = `${totalQuantity}`; // Update cart counter
-}
-
-renderItems();
-
-function removeItem(productId) {
-  products = products.filter((product) => product.id !== productId);
-  localStorage.setItem(`cart`, JSON.stringify(products));
-  renderItems();
-}
-
-function increaseQuantity(productId) {
-  const productIndex = products.findIndex((p) => p.id === productId);
-  if (productIndex > -1) {
-    products[productIndex].quantity =
-      (products[productIndex].quantity || 1) + 1;
-    renderItems();
+    cartSummary.textContent = `Total: ${totalPrice} CFA`;
   }
 }
 
-function decreaseQuantity(productId) {
-  const productIndex = products.findIndex((p) => p.id === productId);
-  if (productIndex > -1) {
-    if ((products[productIndex].quantity || 1) > 1) {
-      products[productIndex].quantity--;
+async function increaseQuantity(itemId) {
+  try {
+    const response = await fetch(`http://localhost:3000/cart/${itemId}`);
+    const item = await response.json();
+    const newQuantity = (item.quantity || 1) + 1;
+    await fetch(`http://localhost:3000/cart/${itemId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ quantity: newQuantity }),
+    });
+    loadCartItems();
+  } catch (error) {
+    console.error("Failed to increase quantity:", error);
+  }
+}
+
+async function decreaseQuantity(itemId) {
+  try {
+    const response = await fetch(`http://localhost:3000/cart/${itemId}`);
+    const item = await response.json();
+    const newQuantity = (item.quantity || 1) - 1;
+    if (newQuantity > 0) {
+      await fetch(`http://localhost:3000/cart/${itemId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ quantity: newQuantity }),
+      });
     } else {
-      // If quantity is 1, remove the item
-      products.splice(productIndex, 1);
+      await removeItem(itemId);
     }
-    renderItems();
+    loadCartItems();
+  } catch (error) {
+    console.error("Failed to decrease quantity:", error);
   }
 }
 
-// Modified placeOrder function to show the popup
-function placeOrder() {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+async function removeItem(itemId) {
+  try {
+    await fetch(`http://localhost:3000/cart/${itemId}`, {
+      method: "DELETE",
+    });
+    loadCartItems();
+  } catch (error) {
+    console.error("Failed to remove item:", error);
+  }
+}
+
+// Function to trigger the popup
+async function placeOrder() {
+  const response = await fetch("http://localhost:3000/cart");
+  const cart = await response.json();
 
   if (cart.length === 0) {
-    // Using the client notification area instead of alert
-    showClientNotification("Your cart is empty. Add items before placing an order.");
+    alert("Your cart is empty. Please add items before placing an order.");
     return;
   }
 
+  // Generate a random table number between 1 and 100
+  const randomTableNumber = Math.floor(Math.random() * 100) + 1;
+
+  // Store the order details in a temporary object
+  window.tempOrderDetails = {
+    id: `ORD-${Date.now()}`,
+    tableNumber: randomTableNumber,
+    items: cart,
+    totalPrice: cart.reduce(
+      (sum, item) => sum + item.price * (item.quantity || 1),
+      0
+    ),
+    status: "Pending",
+    timestamp: new Date().toISOString(),
+  };
+
   // Populate the popup with order details
-  let detailsHtml = "<h3>Order Summary:</h3>";
-  let totalOrderPrice = 0;
-  cart.forEach((item) => {
-    detailsHtml += `<p>${item.name} (x${item.quantity || 1}) - <strong>${
-      item.price * (item.quantity || 1)
-    } CFA</strong></p>`;
-    totalOrderPrice += item.price * (item.quantity || 1);
-  });
-  detailsHtml += `<p><strong>Total Order Price: ${totalOrderPrice} CFA</strong></p>`;
-  popupOrderDetails.innerHTML = detailsHtml;
+  popupOrderDetails.innerHTML = `
+    <p><strong>Table Number:</strong> ${window.tempOrderDetails.tableNumber}</p>
+    <p><strong>Order ID:</strong> ${window.tempOrderDetails.id}</p>
+    <p><strong>Total:</strong> ${window.tempOrderDetails.totalPrice} CFA</p>
+    <h4>Items:</h4>
+    <ul>
+      ${cart
+        .map((item) => `<li>${item.name} x ${item.quantity || 1}</li>`)
+        .join("")}
+    </ul>
+  `;
 
   // Show the popup
   orderConfirmationPopup.style.display = "flex";
 }
 
-// Function to finalize the order (called when Validate Order is clicked)
-function finalizeOrder() {
-  // Hide the popup first
-  orderConfirmationPopup.style.display = "none";
+// Function to finalize the order (called by the "Validate" button)
+async function finalizeOrder() {
+  if (!window.tempOrderDetails) return;
 
-  let orders = JSON.parse(localStorage.getItem("order")) || [];
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  const newOrderId = `ORD-${Date.now()}`;
-  let totalOrderPrice = 0;
-  cart.forEach((item) => {
-    totalOrderPrice += item.price * (item.quantity || 1);
-  });
-
-  // Prompt the user for the table number
-  const tableNumber = prompt("Please enter your table number:");
-  if (!tableNumber) {
-    showClientNotification("Order canceled. Please enter a table number to proceed.");
-    return; // Exit the function if no table number is provided
-  }
-
-  const newOrder = {
-    id: newOrderId,
-    items: cart,
-    totalPrice: totalOrderPrice,
-    status: "Pending",
-    tableNumber: tableNumber, // Use the table number from the prompt
-    timestamp: new Date().toISOString(),
-  };
-
-  orders.push(newOrder);
-  localStorage.setItem("order", JSON.stringify(orders));
-  localStorage.removeItem("cart");
-  products = [];
-  renderItems();
-
-  showClientNotification("Order placed successfully! Redirecting to order page.");
-  setTimeout(() => {
-    window.location.href = "order.html";
-  }, 1500);
-}
-
-// Function to cancel the order (called when Cancel is clicked)
-function cancelOrder() {
-  orderConfirmationPopup.style.display = "none"; // Hide the popup
-}
-
-// Event Listeners for popup buttons
-validateOrderBtn.addEventListener("click", finalizeOrder);
-cancelOrderBtn.addEventListener("click", cancelOrder);
-
-// Placeholder for client notification (ensure this function exists or is imported)
-function showClientNotification(message) {
-  const clientNotificationArea = document.getElementById("clientNotificationArea");
-  if (clientNotificationArea) {
-    const notificationMessage = document.createElement("div");
-    notificationMessage.classList.add("client-notification-message");
-    notificationMessage.innerHTML = `<p>${message}</p><button class="dismiss-notification-btn">X</button>`;
-    clientNotificationArea.appendChild(notificationMessage);
-    clientNotificationArea.style.display = "block";
-
-    notificationMessage.querySelector(".dismiss-notification-btn").addEventListener("click", () => {
-      notificationMessage.remove();
-      if (clientNotificationArea.children.length === 0) {
-        clientNotificationArea.style.display = "none";
-      }
+  try {
+    // Post the order to the server
+    await fetch("http://localhost:3000/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(window.tempOrderDetails),
     });
 
-    setTimeout(() => {
-      if (notificationMessage.parentNode) {
-        notificationMessage.remove();
-        if (clientNotificationArea.children.length === 0) {
-          clientNotificationArea.style.display = "none";
-        }
-      }
-    }, 6000); // Notification disappears after 5 seconds
-  } else {
-    console.warn("Client notification area not found.");
-    // Fallback to alert if notification area isn't available
-    alert(message);
+    // Clear the cart on the server
+    for (const item of window.tempOrderDetails.items) {
+      await fetch(`http://localhost:3000/cart/${item.id}`, {
+        method: "DELETE",
+      });
+    }
+
+    // Hide the popup
+    orderConfirmationPopup.style.display = "none";
+
+    alert(
+      `Order placed successfully! Your table number is: ${window.tempOrderDetails.tableNumber}. Redirecting to order page.`
+    );
+    window.location.href = "order.html";
+  } catch (error) {
+    console.error("Failed to place order:", error);
+    alert("Failed to place order. Please try again.");
   }
+}
+
+// Function to cancel the order (called by the "Cancel" button)
+function cancelOrder() {
+  orderConfirmationPopup.style.display = "none";
+  window.tempOrderDetails = null; // Clear temporary order data
 }
