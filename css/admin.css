@@ -37,8 +37,6 @@ nav {
 .logo {
   font-size: 2rem;
   font-weight: bold;
-  border-right: solid rgb(255, 255, 255) 4px;
-  border-left: solid rgb(255, 255, 255) 4px;
   border-radius: 5px;
   padding: 5px 18px;
   color: #fff;
