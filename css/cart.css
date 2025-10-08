@@ -37,8 +37,6 @@ nav {
 .logo {
   font-size: 2rem;
   font-weight: bold;
-  border-right: solid rgb(255, 255, 255) 4px;
-  border-left: solid rgb(255, 255, 255) 4px;
   border-radius: 5px;
   padding: 5px 18px;
   color: #fff;
@@ -48,7 +46,6 @@ nav {
 .logo img {
   height: 35px; /* Adjust as needed */
   vertical-align: middle; /* Aligns the image with text */
-
 }
 
 nav ul {
@@ -70,9 +67,9 @@ nav a {
 }
 
 nav ul li,img {
-  height: 25px;
+  height: 40px;
   vertical-align: text-bottom;
-  padding-left: 2px;
+  padding-left: 6px;
 }
 
 /* Cart Icon & Counter Styles */
@@ -135,38 +132,43 @@ main {
   border-radius: 8px;
 }
 
-.cart-section {
+.cart-item {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
 }
 
-.cart-items-container {
-  flex: 3;
+.cart-item-container {
+  flex: 2;
 }
 
-.cart-summary {
+.cart-item-summary {
   flex: 1;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  background-color: #ffffff;
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.cart-summary h2 {
-  color: #3a2018;
+.item-details h3 {
+  color: #ff5a01;
   margin-top: 0;
 }
 
-.cart-summary p {
-  font-size: 1.2rem;
+.cart-item p {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
   font-weight: bold;
+  margin-bottom: 40px;
+}
+
+.cart-summary,h2,p {
+  text-align: center;
 }
 
 .cart-summary button {
-  width: 100%;
-  background-color: #3a2018;
+  width: 50%;
+  background-color: #e65100;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -181,10 +183,10 @@ main {
 }
 
 .cart-summary button:hover {
-  background-color: #2e1a14;
+  background-color: #b03f1d;
 }
 
-.cartItem {
+.cart-item {
   display: flex;
   gap: 20px;
   align-items: center;
@@ -196,26 +198,20 @@ main {
   animation: fadeIn 0.5s ease-in-out;
 }
 
-.cartItem img {
+.cart-img {
   width: 80px;
   height: 80px;
-  object-fit: cover;
-  border-radius: 8px;
+  object-fit: scale-down;
 }
 
-.cartItem h3 {
+.cart-img h3 {
   margin: 0;
   color: #ff7043;
 }
 
-.quantity-controls {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
 
-.quantity-controls button {
-  background-color: #ff7043;
+.increase-btn {
+  background-color: #2ca713;
   color: white;
   border: none;
   width: 30px;
@@ -226,9 +222,37 @@ main {
   font-size: 1.2rem;
 }
 
-.quantity-controls button:hover {
-  background-color: #e65100;
+.increase-btn:hover {
+  background-color: #0d6214;
 }
+
+ .decrease-btn {
+  background-color: #e80a0a;
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1.2rem;
+ }
+
+ .decrease-btn:hover {
+  background-color: #b32727;
+}
+
+.removeButton {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 780px;
+  margin-top: -10px;
+  cursor: pointer;
+  border: none;
+  padding: 9px;
+  border-radius: 45px;
+}
+
 
 /* Order Confirmation Popup */
 .popup-overlay {
@@ -256,13 +280,13 @@ main {
 
 .popup-content h2 {
   text-align: center;
-  color: #3a2018;
+  color: #f35423;
   margin-top: 0;
   font-size: 1.8rem;
 }
 
 .popup-order-details {
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid #d6cfcf;
   padding-top: 20px;
   margin-bottom: 20px;
 }
@@ -276,6 +300,8 @@ main {
 .popup-order-details p {
   margin: 5px 0;
   font-size: 1rem;
+  color: #404140;
+  font-weight: 600;
 }
 
 .popup-buttons {

@@ -14,7 +14,8 @@ async function loadCustomerOrders() {
     renderCustomerOrders();
   } catch (error) {
     console.error("Failed to load customer orders:", error);
-    orderContainer.innerHTML = "<p>Error loading orders. Please try again later.</p>";
+    orderContainer.innerHTML =
+      "<p>Error loading orders. Please try again later.</p>";
   }
 }
 
@@ -45,29 +46,42 @@ function renderCustomerOrders() {
 
     const orderDate = new Date(order.timestamp).toLocaleString();
     let statusClass = "pending";
+    let statusContent = ""; // Initialize content for the status button
+
+    // Determine the content based on the order status
     if (order.status === "Cooking") {
       statusClass = "cooking";
+      statusContent = `<img src="./img/logos/spiners,diliver,trash and cooking/icons8-cooking-100.png" alt="Cooking" class="cooking-img">`;
     } else if (order.status === "Delivered") {
       statusClass = "delivered";
+      statusContent = `<img src="./img/logos/spiners,diliver,trash and cooking/icons8-food-delivery-64.png" alt="diliver" class="diliver-img">`;
+    } else {
+      // Default to Pending if status is not Cooking or Delivered, or if null/undefined
+      statusClass = "pending";
+      statusContent = `<img src="./img/logos/spiners,diliver,trash and cooking/icons8-spinner (2).gif" alt="pending" class="pending-img">`;
     }
 
     const itemsHtml = order.items
       .map(
         (item) => `
-            <li>
-                <img src="${item.image}" alt="${item.name}" class="itemImage" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover;">
-                ${item.name} (Qty: ${item.quantity || 1}) - ${
+                    <li>
+                        <img src="${item.image}" alt="${
+          item.name
+        }" class="itemImage" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover;">
+                        ${item.name} (Qty: ${item.quantity || 1}) - ${
           item.price
         } CFA per item
-            </li>
-        `
+                    </li>
+                `
       )
       .join("");
 
     orderCard.innerHTML = `
             <h3>
                 Order ID: ${order.id}
-                <button class="order-status ${statusClass}">${order.status || "Pending"}</button>
+                <button class="order-status ${statusClass}">
+                    ${statusContent}
+                </button>
             </h3>
             <h2>Table Number: ${order.tableNumber}</h2>
             <p><strong>Order Date:</strong> ${orderDate}</p>
@@ -80,7 +94,9 @@ function renderCustomerOrders() {
     orderContainer.appendChild(orderCard);
   });
 
-  orderSummary.textContent = `Grand Total for all orders: ${grandTotalOrdersPrice.toFixed(0)} CFA`;
+  orderSummary.textContent = `Grand Total for all orders: ${grandTotalOrdersPrice.toFixed(
+    0
+  )} CFA`;
 }
 
 // Function to update the cart counter from the JSON server
@@ -90,7 +106,10 @@ async function updateCartCountOnOrderPage() {
     try {
       const response = await fetch(`${API_BASE_URL}/cart`);
       const cart = await response.json();
-      const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+      const totalItems = cart.reduce(
+        (sum, item) => sum + (item.quantity || 1),
+        0
+      );
       cartCounter.textContent = totalItems;
     } catch (error) {
       console.error("Failed to update cart count:", error);

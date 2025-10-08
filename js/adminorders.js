@@ -63,29 +63,42 @@ function renderCustomerOrders() {
 
     const orderDate = new Date(order.timestamp).toLocaleString();
     let statusClass = "pending";
+    let statusButtonContent = ""; // Initialize content for the status button
+
+    // Determine the content based on the order status
+    // The admin can click these, so we need to ensure the text content is still available for the click event
     if (order.status === "Cooking") {
       statusClass = "cooking";
+      statusButtonContent = `<img src="./img/logos/spiners,diliver,trash and cooking/icons8-cooking-100.png" alt="cooking" class="cooking-img">`;
     } else if (order.status === "Delivered") {
       statusClass = "delivered";
+      statusButtonContent = `<img src="./img/logos/spiners,diliver,trash and cooking/icons8-food-delivery-64.png" alt="diliver" class="diliver-img">
+`;
+    } else {
+      // Default to Pending if status is not Cooking or Delivered, or if null/undefined
+      statusClass = "pending";
+      statusButtonContent = `<img src="./img/logos/spiners,diliver,trash and cooking/icons8-spinner (2).gif" alt="pending" class="pending-img">`;
     }
 
     const itemsHtml = order.items
       .map(
         (item) => `
-            <li>
-                <img src="${item.image}" alt="${item.name}" class="itemImage" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover;">
-                ${item.name} (Qty: ${item.quantity || 1}) - ${
+                    <li>
+                        <img src="${item.image}" alt="${
+          item.name
+        }" class="itemImage" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover;">
+                        ${item.name} (Qty: ${item.quantity || 1}) - ${
           item.price
         } CFA per item
-            </li>
-        `
+                    </li>
+                `
       )
       .join("");
 
     orderCard.innerHTML = `
             <h3>
                 Order ID: ${order.id}
-                <button class="order-status ${statusClass}">${order.status || "Pending"}</button>
+                <button class="order-status ${statusClass}">${statusButtonContent}</button>
             </h3>
             <h2>Table Number: ${order.tableNumber}</h2>
             <p><strong>Order Date:</strong> ${orderDate}</p>
@@ -103,7 +116,7 @@ function renderCustomerOrders() {
   )} CFA`;
 }
 
-// Function to update the cart counter in the navigation bar
+// Function to update the cart counter in the navigation bar (if applicable in admin view)
 async function updateCartCountOnOrderPage() {
   const cartCounter = document.getElementById("cartCounter");
   if (cartCounter) {
@@ -122,15 +135,25 @@ async function updateCartCountOnOrderPage() {
   }
 }
 
-// New event listener for clicking on order status
+// New event listener for clicking on order status (ADMIN ONLY)
 const orderContainer = document.getElementById("orderContainer");
 orderContainer.addEventListener("click", function (event) {
-  const clickedStatus = event.target.closest(".order-status");
+  const clickedStatusButton = event.target.closest(".order-status");
 
-  if (clickedStatus) {
-    const orderCard = clickedStatus.closest(".order-card");
+  if (clickedStatusButton) {
+    const orderCard = clickedStatusButton.closest(".order-card");
     const orderId = orderCard.dataset.orderId;
-    let currentStatus = clickedStatus.textContent.trim();
+
+    // Extract current status from the class list or a data attribute if needed
+    // For simplicity, let's derive it from the current class (e.g., 'pending', 'cooking', 'delivered')
+    let currentStatus = "";
+    if (clickedStatusButton.classList.contains("pending")) {
+      currentStatus = "Pending";
+    } else if (clickedStatusButton.classList.contains("cooking")) {
+      currentStatus = "Cooking";
+    } else if (clickedStatusButton.classList.contains("delivered")) {
+      currentStatus = "Delivered";
+    }
 
     // Cycle the status
     let newStatus;
@@ -145,7 +168,7 @@ orderContainer.addEventListener("click", function (event) {
         newStatus = "Pending";
         break;
       default:
-        newStatus = "Pending";
+        newStatus = "Pending"; // Fallback
         break;
     }
     updateOrderStatus(orderId, newStatus);

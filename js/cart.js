@@ -2,7 +2,9 @@ const cartList = document.getElementById("cartContainer");
 const cartSummary = document.getElementById("summary");
 
 // Get references to the popup and buttons
-const orderConfirmationPopup = document.getElementById("orderConfirmationPopup");
+const orderConfirmationPopup = document.getElementById(
+  "orderConfirmationPopup"
+);
 const popupOrderDetails = document.getElementById("popupOrderDetails");
 const validateOrderBtn = document.getElementById("validateOrderBtn");
 const cancelOrderBtn = document.getElementById("cancelOrderBtn");
@@ -21,7 +23,9 @@ async function loadCartItems() {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const cartItems = await response.json();
+
     renderCart(cartItems);
+    updateCartCount(cartItems); // <--- ADD THIS LINE HERE
   } catch (error) {
     console.error("Failed to load cart items:", error);
     cartList.innerHTML = "<p>Error loading cart. Please try again.</p>";
@@ -41,7 +45,7 @@ function renderCart(cartItems) {
       const cartItem = document.createElement("div");
       cartItem.classList.add("cart-item");
       cartItem.innerHTML = `
-        <img src="${item.image}" alt="${item.name}">
+        <img src="${item.image}" class="cart-img" alt="${item.name}">
         <div class="item-details">
           <h3>${item.name}</h3>
           <p>Price: ${item.price} CFA</p>
@@ -51,7 +55,7 @@ function renderCart(cartItems) {
             <button class="increase-btn" onclick="increaseQuantity('${item.id}')">+</button>
           </div>
         </div>
-        <button class="removeButton" onclick="removeItem('${item.id}')">Remove</button>
+        <button class="removeButton" onclick="removeItem('${item.id}')"><img src="./img/logos/spiners,diliver,trash and cooking/icons8-trash-can.gif" alt="trash"></button>
       `;
       cartList.appendChild(cartItem);
     }
@@ -92,6 +96,21 @@ async function decreaseQuantity(itemId) {
     loadCartItems();
   } catch (error) {
     console.error("Failed to decrease quantity:", error);
+  }
+}
+
+// Function to update the cart counter element based on the loaded cart data
+function updateCartCount(cartItems) {
+  const cartCounter = document.getElementById("cartCounter");
+  if (cartCounter) {
+    // Calculate the total quantity of all items in the cart
+    let totalItems = cartItems.reduce(
+      (sum, item) => sum + (item.quantity || 1),
+      0
+    );
+
+    // Update the HTML element
+    cartCounter.textContent = totalItems;
   }
 }
 
