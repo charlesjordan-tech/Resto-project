@@ -19,6 +19,7 @@ async function loadCustomerOrders() {
   }
 }
 
+// 💡 UPDATED RENDER FUNCTION (Uses user's specific image paths) 💡
 function renderCustomerOrders() {
   const orderContainer = document.getElementById("orderContainer");
   const orderSummary = document.getElementById("summary");
@@ -45,43 +46,46 @@ function renderCustomerOrders() {
     orderCard.dataset.orderId = order.id;
 
     const orderDate = new Date(order.timestamp).toLocaleString();
-    let statusClass = "pending";
-    let statusContent = ""; // Initialize content for the status button
 
-    // Determine the content based on the order status
+    // Logic to determine the image path based on order status
+    let statusClass = "pending";
+    let statusButtonContent = "";
+    let statusAltText = "Pending";
+
     if (order.status === "Cooking") {
       statusClass = "cooking";
-      statusContent = `<img src="./img/logos/spiners,diliver,trash and cooking/icons8-cooking-100.png" alt="Cooking" class="cooking-img">`;
+      statusAltText = "Cooking";
+      statusButtonContent = `<img src="./img/logos/spiners,diliver,trash and cooking/icons8-cooking-100.png" alt="cooking" class="cooking-img">`;
     } else if (order.status === "Delivered") {
       statusClass = "delivered";
-      statusContent = `<img src="./img/logos/spiners,diliver,trash and cooking/icons8-food-delivery-64.png" alt="diliver" class="diliver-img">`;
+      statusAltText = "Delivered";
+      statusButtonContent = `<img src="./img/logos/spiners,diliver,trash and cooking/icons8-food-delivery-64.png" alt="delivered" class="diliver-img">`;
     } else {
-      // Default to Pending if status is not Cooking or Delivered, or if null/undefined
+      // Default to Pending
       statusClass = "pending";
-      statusContent = `<img src="./img/logos/spiners,diliver,trash and cooking/icons8-spinner (2).gif" alt="pending" class="pending-img">`;
+      statusAltText = "Pending";
+      statusButtonContent = `<img src="./img/logos/spiners,diliver,trash and cooking/icons8-spinner (2).gif" alt="pending" class="pending-img">`;
     }
 
     const itemsHtml = order.items
       .map(
         (item) => `
-                    <li>
-                        <img src="${item.image}" alt="${
+            <li>
+                <img src="${item.image}" alt="${
           item.name
         }" class="itemImage" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover;">
-                        ${item.name} (Qty: ${item.quantity || 1}) - ${
+                ${item.name} (Qty: ${item.quantity || 1}) - ${
           item.price
         } CFA per item
-                    </li>
-                `
+            </li>
+        `
       )
       .join("");
 
     orderCard.innerHTML = `
             <h3>
                 Order ID: ${order.id}
-                <button class="order-status ${statusClass}">
-                    ${statusContent}
-                </button>
+                <button class="order-status ${statusClass}" disabled>${statusButtonContent}</button>
             </h3>
             <h2>Table Number: ${order.tableNumber}</h2>
             <p><strong>Order Date:</strong> ${orderDate}</p>
@@ -99,7 +103,7 @@ function renderCustomerOrders() {
   )} CFA`;
 }
 
-// Function to update the cart counter from the JSON server
+// Function to update the cart counter from the JSON server (unchanged)
 async function updateCartCountOnOrderPage() {
   const cartCounter = document.getElementById("cartCounter");
   if (cartCounter) {
@@ -113,11 +117,42 @@ async function updateCartCountOnOrderPage() {
       cartCounter.textContent = totalItems;
     } catch (error) {
       console.error("Failed to update cart count:", error);
-      cartCounter.textContent = "0"; // Fallback to 0 on error
+      cartCounter.textContent = "0";
     }
   }
 }
 
-// Initial load of orders and cart count when the page loads
-loadCustomerOrders();
-updateCartCountOnOrderPage();
+// Checks the most recent order for 'Delivered' status and shows pop-up (unchanged)
+function checkDeliveredStatus() {
+  const mostRecentOrder = customerOrders.sort(
+    (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+  )[0];
+
+  if (mostRecentOrder && mostRecentOrder.status === "Delivered") {
+    const popUpKey = `delivered_popup_${mostRecentOrder.id}`;
+
+    if (!sessionStorage.getItem(popUpKey)) {
+      // CLIENT POPUP
+      alert("Thanks for your kind patience, good appetite");
+      sessionStorage.setItem(popUpKey, "shown");
+    }
+  }
+}
+
+// AUTOMATIC REFRESH IMPLEMENTATION (Listening for localStorage signal) (unchanged)
+window.addEventListener("storage", async (event) => {
+  if (event.key === "orderStatusUpdated") {
+    await loadCustomerOrders();
+    checkDeliveredStatus();
+    console.log(
+      "Order status updated by admin, refreshing client view automatically and checking for final status."
+    );
+  }
+});
+
+// Initial load of orders and cart count when the page loads (unchanged)
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadCustomerOrders();
+  checkDeliveredStatus();
+  updateCartCountOnOrderPage();
+});

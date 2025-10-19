@@ -18,8 +18,8 @@ header {
   top: 0;
   margin: 0;
   z-index: 100;
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)),
-    url("/img/74e05946e17e578b4f10142c98760170.jpg") center/cover no-repeat;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)),
+    url("/img/food.png") center repeat;
   color: #ffffff;
   padding: 1rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
@@ -27,20 +27,21 @@ header {
 
 header .title {
   font-size: 2em;
-  margin: 0;
+  margin: 0px;
 }
 
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 3rem;
+  padding: 0 ;
   max-width: 1400px;
   margin: 0 auto;
+
 }
 
 .logo {
-  font-size: 2rem;
+  font-size: 2.9rem;
   font-weight: bold;
   border-radius: 5px;
   padding: 5px 18px;
@@ -49,7 +50,7 @@ nav {
 }
 
 .logo img {
-  height: 55px; /* Adjust as needed */
+  height: 100px; /* Adjust as needed */
   vertical-align: bottom; /* Aligns the image with text */
 }
 
@@ -69,13 +70,14 @@ nav a {
   text-decoration: none;
   font-weight: bold;
   transition: color 0.3s ease;
+  font-size: 1.5rem;
 }
 
 nav ul li,
 img {
-  height: 29px;
-  vertical-align: text-bottom;
-  padding-left: 7px;
+  height: 50px;
+  vertical-align: text-top;
+  padding-left: 12px;
 }
 
 /* Cart Icon & Counter Styles */
@@ -91,13 +93,13 @@ img {
 .cart-counter {
   background-color: #7bdd2a; /* Red background for counter */
   color: #ffffff;
-  font-size: 1rem;
+  font-size: 1.3rem;
   font-weight: bold;
   border-radius: 50%; /* Makes it circular */
-  padding: 3px 7px; /* Adjust padding to make it a nice circle */
+  padding: 5px 9px; /* Adjust padding to make it a nice circle */
   position: absolute; /* Position relative to .cart-icon-container */
   top: -10px;
-  right: -17px;
+  right: -20px;
   min-width: 20px; /* Ensures it's always a circle */
   text-align: center;
   line-height: 1; /* Vertically center the number */
@@ -132,7 +134,7 @@ header h1 {
 main {
   padding: 20px;
   max-width: 1200px;
-  margin: 20px auto;
+  margin: 40px auto;
   background-color: none;
 }
 
@@ -146,15 +148,21 @@ main {
 }
 
 .searchContainer img {
-  width: 40px;
-  margin-right: 10px;
+  width: 50px;
+  margin-right: 5px;
 }
 
 #search {
   border: none;
   outline: none;
-  width: 100%;
-  font-size: 1.2rem;
+  width: 50%;
+  font-weight: bold;
+  font-size: 1.4rem;
+  color: black;
+}
+
+#search:hover {
+  border: solid 1.5 red;
 }
 
 .products-section {
@@ -259,9 +267,9 @@ footer {
   width: 300px;
   max-height: 50vh;
   overflow-y: auto;
-  background-color: #09b7ec; /* Light yellow background */
-  border: 1px solid #ffeeba;
-  border-radius: 8px;
+  background-color: #04b965; /* Light yellow background */
+  border: 2px solid #f4b700;
+  border-radius: 10px;
   padding: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
@@ -280,8 +288,8 @@ footer {
 
 .client-notification-message p {
   margin: 0;
-  font-size: 1rem;
-  color: #ffffff; /* Dark yellow text */
+  font-size: 1.1rem;
+  color: #000000; /* Dark yellow text */
 }
 
 .dismiss-notification-btn {
@@ -307,5 +315,4 @@ footer {
   .product-card img:hover {
     transform: none;
   }
-  
 }

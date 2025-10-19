@@ -27,13 +27,20 @@ async function updateOrderStatus(orderId, newStatus) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: newStatus }),
     });
-    // Re-fetch and re-render the orders to show the updated status
+
+    // Re-fetch and re-render the orders to show the updated status (for Admin's view)
     loadCustomerOrders();
+
+    // 💡 NEW CODE: Signal the client page to refresh 💡
+    // We set a new timestamp value to ensure the 'storage' event is fired.
+    localStorage.setItem("orderStatusUpdated", new Date().toISOString());
   } catch (error) {
     console.error(`Failed to update status for order ${orderId}:`, error);
     alert("Failed to update order status. Please try again.");
   }
 }
+
+// ... rest of adminorders.js remains the same ...
 
 function renderCustomerOrders() {
   const orderContainer = document.getElementById("orderContainer");
